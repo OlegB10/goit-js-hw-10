@@ -20,12 +20,8 @@ function addBreeds() {
   fetchBreeds(errorMessage)
     .then(response => {
       takeBreeds(response);
-      let listOfBreedsEl = breeds.map(element => {
-        let optionEl = document.createElement('option');
-        optionEl.value = element.id;
-        optionEl.textContent = element.name;
-        return optionEl;
-      });
+   let listOfBreedsEl = breeds.map(element => `<option value="${element.id}">${element.name}</option>`).join("");
+      selectEl.innerHTML = listOfBreedsEl;
       selectEl.append(...listOfBreedsEl);
     })
     .catch(error => {
@@ -48,41 +44,8 @@ function getElements(elements) {
 function showBreed(returnedPromise) {
   const elements = getElements(returnedPromise);
   const { name, description, temperament, image } = elements;
-
-  const containerEl = document.createElement('div');
-  containerEl.classList.add('container');
-
-  const imageEl = document.createElement('img');
-  imageEl.src = image;
-  imageEl.alt = name;
-  imageEl.classList.add('image');
-    
-  const infoContainerEl = document.createElement('div');
-  infoContainerEl.classList.add('info');
-
-  const titleEl = document.createElement('h1');
-  titleEl.classList.add('title');
-  titleEl.textContent = name;
-
-  const descriptionEl = document.createElement('p');
-  descriptionEl.classList.add('description');
-  descriptionEl.textContent = description;
-
-  const temperamentEl = document.createElement('p');
-  temperamentEl.classList.add('temperament');
-  temperamentEl.innerHTML = `<b class="title-temperament">Temperament: </b>${temperament}`;
-
-  infoContainerEl.appendChild(titleEl);
-  infoContainerEl.appendChild(descriptionEl);
-  infoContainerEl.appendChild(temperamentEl);
-
-  containerEl.appendChild(imageEl);
-  containerEl.appendChild(infoContainerEl);
-
-  catInfoEl.innerHTML = '';
-
-  catInfoEl.appendChild(containerEl);
-
+  const markup = `<div class="container"><img src="${image}" alt="${name}" class="image"><div class="info"><h1 class="title">${name}</h1><p class="description">${description}</p><p class="temperament"><b class="title-temperament">Temperament: </b>${temperament}</p></div></div>`;
+  catInfoEl.innerHTML = markup;
   loaderEl.style.display = 'none';
 }
 

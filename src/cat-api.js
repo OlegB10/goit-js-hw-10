@@ -1,6 +1,7 @@
 import Notiflix from 'notiflix';
+export { fetchBreeds, fetchCatByBreed };
 
-export function fetchBreeds(errorMessage) {
+function fetchBreeds(errorMessage) {
     let urlBreeds = 'https://api.thecatapi.com/v1/breeds';
     return fetch(urlBreeds)
     .then(response => {
@@ -9,7 +10,6 @@ export function fetchBreeds(errorMessage) {
         }
         return response.json();
       })
-    .catch(error => Notiflix.Notify.failure(errorMessage.textContent))
 };
 
 function getCat(breedId) {
@@ -22,7 +22,7 @@ function getCat(breedId) {
     return BASE_URL + params.toString();
 }
 
-export function fetchCatByBreed(breedId, errorMessage, loaderEl, selectEl) {
+function fetchCatByBreed(breedId) {
     const urlBreed = getCat(breedId);
     return fetch(urlBreed)
     .then(response => {
@@ -32,10 +32,4 @@ export function fetchCatByBreed(breedId, errorMessage, loaderEl, selectEl) {
         }
         return response.json();
       })
-    .catch(error => {
-        Notiflix.Notify.failure(errorMessage.textContent);
-        loaderEl.style.display = 'none';
-        selectEl.style.display = 'block';
-    })
-
-}
+    }
